@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#333"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="加载中..."
+        android:id="@+id/load"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#333"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="没有更多"
+        android:id="@+id/noMore"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/noNetwork"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:text="网络异常" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="重新加载"
+            android:background="@drawable/shape_text"
+            android:textColor="#333"
+            android:id="@+id/again"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
