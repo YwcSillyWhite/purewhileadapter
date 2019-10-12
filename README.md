@@ -7,7 +7,6 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 	}
-
 ```
 2.加入jar包
 ```java
@@ -118,6 +117,11 @@ mainAdapter.setFullStatus(FullView.LOAD,false);
         if (fullView!=null)
             this.fullView = fullView;
     }
+```
+
+7.添加布局
+```java
+        addLayoutId(R.layout.adapter_one);
 ```
 
 
