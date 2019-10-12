@@ -11,7 +11,7 @@ allprojects {
 2.加入jar包
 ```java
 dependencies {
-	        implementation 'com.github.YwcSillyWhite:purewhileadapter:Tag'
+	        implementation 'com.github.YwcSillyWhite:purewhileadapter:v1.0.1'
 	}
 ```
 3.初始化<br>
