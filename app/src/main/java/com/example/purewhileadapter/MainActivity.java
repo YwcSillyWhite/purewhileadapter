@@ -34,14 +34,29 @@ public class MainActivity extends AppCompatActivity {
 
         recyc.setLayoutManager(new GridLayoutManager(this,2));
 
-        mainAdapter.setFullStatus(FullView.LOAD,false);
+
         mainAdapter.setOnLoadListener(new OnLoadListenerImp() {
+            //加载更多
             @Override
             public void judgeLoad() {
                 page++;
                 flush(false,page>5?9:10);
             }
+
+            //加载更多判断
+            @Override
+            public boolean judge() {
+                return super.judge();
+            }
+
+            //点击没有网络重新加载
+            @Override
+            public void againLoad() {
+                super.againLoad();
+            }
         });
+
+        mainAdapter.setFullStatus(FullView.LOAD,false);
         mainAdapter.setOnFullListener(new OnFullListener() {
             @Override
             public void againLoad() {

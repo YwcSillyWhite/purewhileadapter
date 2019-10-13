@@ -268,6 +268,8 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return obtainDataCount()+obtainHeadDataCount()-size;
     }
 
+
+    //刷新数据
     public void flush(List<T> list){
         if (mData.size()>0){
             mData.clear();
@@ -304,6 +306,8 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         }
     }
 
+
+    //添加数据
     public void addData(List<T> list){
         if (list!=null && list.size()>0){
             mData.addAll(list);
@@ -319,6 +323,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         }
     }
 
+    //删除数据
     public void removePosition(int position){
         if (position<obtainDataCount()){
             mData.remove(position);
@@ -327,6 +332,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     }
 
 
+    //清空
     public void clear(){
         if (obtainDataCount() > 0){
             mData.clear();

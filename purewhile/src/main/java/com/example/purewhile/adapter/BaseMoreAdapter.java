@@ -48,7 +48,9 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
     private OnFullListener onFullListener;
     private Handler handler = new Handler();
     private int defaultPageSize=10;
-
+    public void setDefaultPageSize(int defaultPageSize) {
+        this.defaultPageSize = defaultPageSize;
+    }
 
     //参数2是否刷新
     public void setLoadStatus(int loadStatus,boolean flush){
