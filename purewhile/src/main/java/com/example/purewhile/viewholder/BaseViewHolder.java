@@ -9,14 +9,20 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.purewhile.adapter.BaseAdapter;
+import com.example.purewhile.call.OnItemListener;
+import com.example.purewhile.utils.ClickUtils;
+
 /**
  * BaseViewHolder
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> sparseArray=new SparseArray<>();
-    public BaseViewHolder(@NonNull View itemView) {
+    private BaseAdapter baseAdapter;
+    public BaseViewHolder(@NonNull View itemView,BaseAdapter adapter) {
         super(itemView);
+        this.baseAdapter=adapter;
     }
 
     public View fdById(@IdRes int id){
@@ -34,6 +40,16 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
             if ( view!=null && view instanceof TextView ){
                 ((TextView) view).setText(text);
             }
+        }
+        return this;
+    }
+
+    public BaseViewHolder setRecycler(@IdRes int id, RecyclerView.Adapter adapter, RecyclerView.LayoutManager layoutManager){
+        View view = fdById(id);
+        if (view!=null && view instanceof RecyclerView){
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
         }
         return this;
     }
@@ -70,5 +86,55 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
             recyclerView.setLayoutManager(layoutManager);
         }
         return this;
+    }
+
+    public BaseViewHolder setOnClickListener(int  ...ids){
+        if (ids.length==0)
+            return this;
+        if (baseAdapter.onItemListener!=null){
+            for (int i = 0; i < ids.length; i++) {
+                View view = fdById(ids[i]);
+                if (view!=null){
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (baseAdapter.onItemListener!=null){
+                                if (ClickUtils.clickable(view)){
+                                    baseAdapter.onItemListener.onClick(baseAdapter,view, getDataPosition(),false);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+       return this;
+    }
+
+    public BaseViewHolder setOnLongClickListener(int ...ids){
+        if (ids.length==0)
+            return this;
+        if (baseAdapter.onItemLongListener!=null){
+            for (int i = 0; i < ids.length; i++) {
+                View view = fdById(ids[i]);
+                if (view!=null){
+                    view.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            if (baseAdapter.onItemLongListener!=null){
+                                return baseAdapter.onItemLongListener.onClick(baseAdapter,view,getDataPosition(),false);
+                            }
+                            return false;
+                        }
+                    });
+                }
+            }
+        }
+        return this;
+    }
+
+
+    public int  getDataPosition(){
+        return getLayoutPosition()-baseAdapter.obtainHeadDataCount();
     }
 }

@@ -14,6 +14,6 @@ public class MainAdapter extends BaseMoreAdapter<String,BaseViewHolder> {
 
     @Override
     protected void onBindDataViewHolder(BaseViewHolder holder, int position, int itemViewType, String s) {
-        holder.setText(R.id.tv,s);
+        holder.setText(R.id.tv,s).setOnClickListener(R.id.tv);
     }
 }

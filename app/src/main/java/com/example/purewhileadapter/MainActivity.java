@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.purewhile.call.OnFullListener;
+import com.example.purewhile.call.OnItemListener;
 import com.example.purewhile.call.OnLoadListenerImp;
 import com.example.purewhile.full.FullView;
 
@@ -67,11 +69,19 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.addHead(inflate);
         mainAdapter.addFoot(inflate);
 
+
+
+
+        mainAdapter.setItemViewClick(false);
+        mainAdapter.setOnItemListener(new OnItemListener() {
+            @Override
+            public void onClick(RecyclerView.Adapter adapter, View view, int position, boolean itemView) {
+                Toast.makeText(view.getContext(),"点击",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
         recyc.setAdapter(mainAdapter);
-
-
-
-
         flush(true,10);
     }
 
