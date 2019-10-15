@@ -1,5 +1,7 @@
 package com.example.purewhile.call;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -7,5 +9,5 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public interface OnItemLongListener {
 
-    boolean onClick(RecyclerView.Adapter adapter, int position, boolean itemView);
+    boolean onClick(RecyclerView.Adapter adapter, View view, int position, boolean itemView);
 }

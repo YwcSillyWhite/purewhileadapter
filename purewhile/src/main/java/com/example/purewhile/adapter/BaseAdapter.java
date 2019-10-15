@@ -130,7 +130,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
                     if (isItemViewClick && onItemListener!=null){
                         if (ClickUtils.clickable(view)){
                             int position = holder.getLayoutPosition()-obtainHeadDataCount();
-                            onItemListener.onClick(BaseAdapter.this,position,true);
+                            onItemListener.onClick(BaseAdapter.this,view,position,true);
 
                         }
                     }
@@ -144,7 +144,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
                 public boolean onLongClick(View view) {
                     if (isItemViewLongClick && onItemLongListener!=null ) {
                         int position = holder.getLayoutPosition()-obtainHeadDataCount();
-                        return onItemLongListener.onClick(BaseAdapter.this,position,true);
+                        return onItemLongListener.onClick(BaseAdapter.this,view,position,true);
                     }
                     //默认屏蔽点击事件
                     return true;
