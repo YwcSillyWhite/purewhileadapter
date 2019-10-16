@@ -91,23 +91,23 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     @NonNull
     @Override
     public final V onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return isDataItemView(viewType)?onCreateDataViewHolder(parent,viewType):onCreateRestViewHolder(parent,viewType);
+        if (isDataItemView(viewType)){
+            V v = onCreateDataViewHolder(parent, viewType);
+            onBindClick(v);
+            return v;
+        }else{
+            return onCreateRestViewHolder(parent,viewType);
+        }
     }
 
     public V onCreateDataViewHolder(@NonNull ViewGroup parent, int viewType){
         int layoutId = sparseIntArray.get(viewType, R.layout.adapter_error_layout);
-        V v = onCreateDataV(parent, viewType, layoutId);
-        onBindClick(v);
+        V v = onCreateV(parent,layoutId);
         return v;
     }
 
-
     public V onCreateRestViewHolder(@NonNull ViewGroup parent, int viewType){
         return null;
-    }
-
-    public V onCreateDataV(@NonNull ViewGroup parent,int viewType,int layoutId){
-        return onCreateV(parent,layoutId);
     }
 
     public final V onCreateV(@NonNull ViewGroup parent,int layoutId){
@@ -119,6 +119,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         BaseViewHolder baseViewHolder = new BaseViewHolder(itemView,this);
         return ((V) baseViewHolder);
     }
+
 
 
 
@@ -341,6 +342,14 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         if (obtainDataCount() > 0){
             mData.clear();
             notifyDataSetChanged();
+        }
+    }
+
+    public void flushOrAdd(boolean flush,List<T> list){
+        if (flush){
+            flush(list);
+        }else{
+            addData(list);
         }
     }
 

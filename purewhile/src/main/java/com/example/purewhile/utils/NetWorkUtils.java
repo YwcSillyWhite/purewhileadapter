@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
  */
 public class NetWorkUtils {
 
-
     //判断是否存在网络
     public static boolean isConnected() {
         Context context = AdapterUtils.getContext();

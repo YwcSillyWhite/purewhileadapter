@@ -353,11 +353,7 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
      */
     public void finishStatus(boolean network,boolean flush,List<T> list){
         if (network) {
-            if (flush){
-                flush(list);
-            }else{
-                addData(list);
-            }
+            flushOrAdd(flush,list);
             int size = list!=null?list.size():0;
             if (size == 0){
                 if (flush){

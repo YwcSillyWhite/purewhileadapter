@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.purewhile.adapter.BaseAdapter;
@@ -19,10 +20,10 @@ import com.example.purewhile.utils.ClickUtils;
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> sparseArray=new SparseArray<>();
-    private BaseAdapter baseAdapter;
-    public BaseViewHolder(@NonNull View itemView,BaseAdapter adapter) {
+    private RecyclerView.Adapter adapter;
+    public BaseViewHolder(@NonNull View itemView,@NonNull RecyclerView.Adapter adapter) {
         super(itemView);
-        this.baseAdapter=adapter;
+        this.adapter=adapter;
     }
 
     public View fdById(@IdRes int id){
@@ -91,42 +92,49 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setOnClickListener(int  ...ids){
         if (ids.length==0)
             return this;
-        if (baseAdapter.onItemListener!=null){
-            for (int i = 0; i < ids.length; i++) {
-                View view = fdById(ids[i]);
-                if (view!=null){
-                    view.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (baseAdapter.onItemListener!=null){
-                                if (ClickUtils.clickable(view)){
-                                    baseAdapter.onItemListener.onClick(baseAdapter,view, getDataPosition(),false);
+        if (adapter instanceof BaseAdapter){
+            final BaseAdapter baseAdapter = (BaseAdapter) adapter;
+            if (baseAdapter.onItemListener!=null){
+                for (int i = 0; i < ids.length; i++) {
+                    View view = fdById(ids[i]);
+                    if (view!=null){
+                        view.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (baseAdapter.onItemListener!=null){
+                                    if (ClickUtils.clickable(view)){
+                                        baseAdapter.onItemListener.onClick(baseAdapter,view, getDataPosition(),false);
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }
+
        return this;
     }
 
     public BaseViewHolder setOnLongClickListener(int ...ids){
         if (ids.length==0)
             return this;
-        if (baseAdapter.onItemLongListener!=null){
-            for (int i = 0; i < ids.length; i++) {
-                View view = fdById(ids[i]);
-                if (view!=null){
-                    view.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if (baseAdapter.onItemLongListener!=null){
-                                return baseAdapter.onItemLongListener.onClick(baseAdapter,view,getDataPosition(),false);
+        if (adapter instanceof BaseAdapter){
+            final BaseAdapter baseAdapter = (BaseAdapter) adapter;
+            if (baseAdapter.onItemLongListener!=null){
+                for (int i = 0; i < ids.length; i++) {
+                    View view = fdById(ids[i]);
+                    if (view!=null){
+                        view.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                if (baseAdapter.onItemLongListener!=null){
+                                    return baseAdapter.onItemLongListener.onClick(baseAdapter,view,getDataPosition(),false);
+                                }
+                                return false;
                             }
-                            return false;
-                        }
-                    });
+                        });
+                    }
                 }
             }
         }
@@ -135,6 +143,10 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
 
     public int  getDataPosition(){
-        return getLayoutPosition()-baseAdapter.obtainHeadDataCount();
+        if (adapter instanceof BaseAdapter) {
+            BaseAdapter baseAdapter = (BaseAdapter) this.adapter;
+            return getLayoutPosition()-baseAdapter.obtainHeadDataCount();
+        }
+        return getLayoutPosition();
     }
 }
