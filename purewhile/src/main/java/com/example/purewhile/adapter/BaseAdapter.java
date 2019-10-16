@@ -168,7 +168,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     public final void onBindViewHolder(@NonNull V holder, int position) {
         int itemViewType = holder.getItemViewType();
         if (isDataItemView(itemViewType)) {
-            int dataPosition = position - obtainHeadDataCount();
+            int dataPosition = position - obtainDataHeadCout();
             onBindDataViewHolder(holder,dataPosition,itemViewType,obtainT(dataPosition));
         }else{
             onBindRestViewHolder(holder,position,itemViewType);
@@ -191,7 +191,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
      * @return
      */
     @Override
-    public final int getItemCount() {
+    public int  getItemCount() {
         return obtainDataCount()+obtainRestCount();
     }
 
@@ -213,7 +213,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     /**
      * 数据头部长度
      */
-    public int obtainHeadDataCount(){
+    public int obtainDataHeadCout(){
         return 0;
     }
 
@@ -270,7 +270,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
      * 刷新适配器
      */
     private int startPosition(int size){
-        return obtainDataCount()+obtainHeadDataCount()-size;
+        return obtainDataCount()+obtainDataHeadCout()-size;
     }
 
 
@@ -307,7 +307,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
 
     public void flush(int position){
         if (position<obtainDataCount()){
-            notifyItemChanged(position+obtainHeadDataCount());
+            notifyItemChanged(position+obtainDataHeadCout());
         }
     }
 
@@ -332,7 +332,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     public void removePosition(int position){
         if (position<obtainDataCount()){
             mData.remove(position);
-            notifyItemRemoved(position+obtainHeadDataCount());
+            notifyItemRemoved(position+obtainDataHeadCout());
         }
     }
 

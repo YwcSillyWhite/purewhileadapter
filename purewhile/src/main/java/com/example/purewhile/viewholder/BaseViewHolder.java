@@ -145,7 +145,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public int  getDataPosition(){
         if (adapter instanceof BaseAdapter) {
             BaseAdapter baseAdapter = (BaseAdapter) this.adapter;
-            return getLayoutPosition()-baseAdapter.obtainHeadDataCount();
+            return getLayoutPosition()-baseAdapter.obtainDataHeadCout();
         }
         return getLayoutPosition();
     }

@@ -77,14 +77,19 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
     }
 
     @Override
-    public int obtainRestCount() {
+    public final int getItemCount() {
         if (obtainFullCount() > 0)
             return obtainFullCount();
+        return super.getItemCount();
+    }
+
+    @Override
+    public int obtainRestCount() {
         return obtainHeadCount()+obtainFootCount()+obtainLoadCount();
     }
 
     @Override
-    public int obtainHeadDataCount() {
+    public int obtainDataHeadCout() {
         return obtainHeadCount();
     }
 
@@ -126,18 +131,20 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
             return item_full;
         if (position==0 && obtainHeadCount()!=0) {
             return item_head;
-        }else if (position < obtainDataCount()+obtainHeadDataCount()){
-            return obtainDataItemViewType(position-obtainHeadDataCount());
-        }else if (position < obtainDataCount()+obtainHeadDataCount()+obtainFootCount()){
+        }else if (position < getItemCount() - obtainFootCount() - obtainLoadCount()){
+            return obtainSurplusItemViewType(position - obtainDataHeadCout());
+        }else if (position < getItemCount() - obtainLoadCount()){
             return item_foot;
         }else{
             return item_load;
         }
     }
 
-    public int obtainDataItemViewType(int position){
-        return super.getItemViewType(position+obtainHeadDataCount());
+
+    public int obtainSurplusItemViewType(int position){
+        return super.getItemViewType(position+obtainDataHeadCout());
     }
+
 
     @Override
     protected boolean isDataItemView(int viewType) {
@@ -314,14 +321,14 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         int childCount = footLayout.getChildCount();
         if (childCount==0){
             footLayout.addView(foot);
-            notifyItemInserted(obtainHeadDataCount()+obtainDataCount()+1);
+            notifyItemInserted(getItemCount() - obtainLoadCount() - obtainFootCount());
         }else{
             if (position>=0 && position < childCount) {
                 headLayout.addView(foot,position);
             }else{
                 headLayout.addView(foot);
             }
-            notifyItemChanged(obtainHeadDataCount()+obtainDataCount()+1);
+            notifyItemChanged(getItemCount() - obtainLoadCount() - obtainFootCount());
         }
     }
 
@@ -331,9 +338,9 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         footLayout.removeView(foot);
         int childCount = footLayout.getChildCount();
         if (childCount==0){
-            notifyItemRemoved(obtainHeadDataCount()+obtainDataCount()+1);
+            notifyItemRemoved(getItemCount() - obtainLoadCount() - obtainFootCount());
         }else{
-            notifyItemChanged(obtainHeadDataCount()+obtainDataCount()+1);
+            notifyItemChanged(getItemCount() - obtainLoadCount() - obtainFootCount());
         }
     }
 
@@ -341,7 +348,7 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         if (footLayout == null || footLayout.getChildCount() == 0)
             return;
         footLayout.removeAllViews();
-        notifyItemRemoved(obtainHeadDataCount()+obtainDataCount()+1);
+        notifyItemRemoved(getItemCount() - obtainLoadCount() - obtainFootCount());
     }
 
 

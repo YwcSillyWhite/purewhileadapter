@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private MainAdapter mainAdapter;
     private RecyclerView recyc;
     private int page=1;
-
+    View inflate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter = new MainAdapter(null);
         recyc = ((RecyclerView) findViewById(R.id.recycler));
 
-        View inflate = LayoutInflater.from(this).inflate(R.layout.loadview, null);
+        inflate= LayoutInflater.from(this).inflate(R.layout.loadview, null);
 
         recyc.setLayoutManager(new GridLayoutManager(this,2));
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mainAdapter.addHead(inflate);
+//        mainAdapter.addHead(inflate);
         mainAdapter.addFoot(inflate);
 
 
@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
                     list.add("这是个item"+i);
                 }
                 mainAdapter.finishStatus(true,flush,list);
+                if (size<10){
+                    mainAdapter.removeFoot(inflate);
+                }
             }
         },3000);
     }
