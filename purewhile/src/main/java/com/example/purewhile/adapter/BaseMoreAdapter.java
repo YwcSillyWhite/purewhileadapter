@@ -63,7 +63,7 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
 
     public void setFullStatus(int fullStatus,boolean flush){
         fullView.setFullStatus(fullStatus);
-        if (flush) {
+        if (flush && obtainFullCount() > 0) {
             notifyDataSetChanged();
         }
     }
