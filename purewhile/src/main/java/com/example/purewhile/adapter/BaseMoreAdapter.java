@@ -156,7 +156,7 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
     }
 
     @Override
-    public V onCreateRestViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public final V onCreateRestViewHolder(@NonNull ViewGroup parent, int viewType) {
         V viewholder = null;
         switch (viewType)
         {
@@ -197,10 +197,16 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
                     }
                 });
                 break;
+                default:
+                    viewholder=onCreateRestViewHolder2(parent,viewType);
+                    break;
         }
         return viewholder;
     }
 
+    public  V onCreateRestViewHolder2(@NonNull ViewGroup parent, int viewType){
+        return null;
+    }
 
     @Override
     protected void onBindRestViewHolder(@NonNull V holder, int position, int itemViewType) {
