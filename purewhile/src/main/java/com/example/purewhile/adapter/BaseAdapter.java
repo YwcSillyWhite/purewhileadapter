@@ -190,27 +190,21 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
      */
     @Override
     public int  getItemCount() {
-        return obtainDataCount()+obtainRestCount();
+        return obtainCenterCount()+obtainRestCount();
     }
-
-    /**
-     * 数据长度
-     */
-    public int obtainDataCount(){
-        return mData.size();
+    //中间长度
+    protected int obtainCenterCount(){
+        return obtainDataCount();
     }
-
-    /**
-     * 其他长度
-     * @return
-     */
+    //其他长度
     public int obtainRestCount(){
         return 0;
     }
-
-    /**
-     * 数据头部长度
-     */
+    //数据长度
+    public final int obtainDataCount(){
+        return mData.size();
+    }
+    //头部数据长度
     public int obtainDataHeadCout(){
         return 0;
     }
@@ -304,7 +298,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     }
 
     public void flush(int position){
-        if (position<obtainDataCount()){
+        if (position < obtainDataCount()){
             notifyItemChanged(position+obtainDataHeadCout());
         }
     }
