@@ -204,7 +204,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return mData.size();
     }
     //头部数据长度
-    protected int obtainDataHeadCout(){
+    public int obtainDataHeadCout(){
         return 0;
     }
 
