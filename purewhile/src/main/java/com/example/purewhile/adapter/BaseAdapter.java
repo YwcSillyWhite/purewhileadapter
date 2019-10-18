@@ -45,8 +45,9 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return null;
     }
 
-    //是否是data itemview
-    protected boolean isDataItemView(int viewType){
+
+    //中间数据
+    protected boolean isCenterItemView(int viewType){
         return true;
     }
 
@@ -91,7 +92,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     @NonNull
     @Override
     public final V onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (isDataItemView(viewType)){
+        if (isCenterItemView(viewType)){
             V v = onCreateDataViewHolder(parent, viewType);
             onBindClick(v);
             return v;
@@ -119,9 +120,6 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         BaseViewHolder baseViewHolder = new BaseViewHolder(itemView,this);
         return ((V) baseViewHolder);
     }
-
-
-
 
     //点击事件
     public final void onBindClick(@NonNull final V holder){
@@ -167,7 +165,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     @Override
     public final void onBindViewHolder(@NonNull V holder, int position) {
         int itemViewType = holder.getItemViewType();
-        if (isDataItemView(itemViewType)) {
+        if (isCenterItemView(itemViewType)) {
             int dataPosition = position - obtainDataHeadCout();
             onBindDataViewHolder(holder,dataPosition,itemViewType,obtainT(dataPosition));
         }else{
@@ -240,7 +238,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     }
 
     protected int setGridSpan(GridLayoutManager gridLayoutManager,int position){
-        if (isDataItemView(getItemViewType(position))){
+        if (isCenterItemView(getItemViewType(position))){
             return 1;
         }else {
             return gridLayoutManager.getSpanCount();
@@ -257,7 +255,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     }
 
     protected void setStagSpan(StaggeredGridLayoutManager.LayoutParams layoutParams,V holder){
-        if (isDataItemView(holder.getItemViewType())) {
+        if (isCenterItemView(holder.getItemViewType())) {
             layoutParams.setFullSpan(false);
         }else{
             layoutParams.setFullSpan(true);

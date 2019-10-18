@@ -31,27 +31,25 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
     protected final int item_load=Integer.MIN_VALUE+3;
     private LinearLayout headLayout,footLayout;
     private LoadView loadView = new LoadViewImp();
+    private FullView fullView = new FullViewImp();
+    private OnLoadListener onLoadListener;
+    private OnFullListener onFullListener;
+    private Handler handler = new Handler();
+    private int defaultPageSize=10;
 
     public void setLoadView(LoadView loadView) {
         if (loadView != null)
             this.loadView=loadView;
     }
 
-    private FullView fullView = new FullViewImp();
-
     public void setFullView(FullView fullView) {
         if (fullView!=null)
             this.fullView = fullView;
     }
 
-    private OnLoadListener onLoadListener;
-    private OnFullListener onFullListener;
-    private Handler handler = new Handler();
-    private int defaultPageSize=10;
     public void setDefaultPageSize(int defaultPageSize) {
         this.defaultPageSize = defaultPageSize;
     }
-
     //参数2是否刷新
     public void setLoadStatus(int loadStatus,boolean flush){
         loadView.setLoadStutes(loadStatus);
@@ -59,7 +57,6 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
             notifyItemChanged(getItemCount()-1);
         }
     }
-
 
     public void setFullStatus(int fullStatus,boolean flush){
         fullView.setFullStatus(fullStatus);
@@ -124,7 +121,6 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         return 1;
     }
 
-
     @Override
     public final int getItemViewType(int position) {
         if (obtainFullCount() > 0)
@@ -132,7 +128,7 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         if (position==0 && obtainHeadCount()!=0) {
             return item_head;
         }else if (position < getItemCount() - obtainFootCount() - obtainLoadCount()){
-            return obtainSurplusItemViewType(position - obtainDataHeadCout());
+            return obtianCenterItemViewType(position - obtainDataHeadCout());
         }else if (position < getItemCount() - obtainLoadCount()){
             return item_foot;
         }else{
@@ -140,14 +136,12 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
         }
     }
 
-
-    public int obtainSurplusItemViewType(int position){
+    public int obtianCenterItemViewType(int position){
         return super.getItemViewType(position+obtainDataHeadCout());
     }
 
-
     @Override
-    protected boolean isDataItemView(int viewType) {
+    protected boolean isCenterItemView(int viewType) {
         return viewType!=item_head && viewType!=item_foot && viewType!=item_full && viewType!=item_load;
     }
 
@@ -197,15 +191,8 @@ public abstract class BaseMoreAdapter<T,V extends BaseViewHolder> extends BaseAd
                     }
                 });
                 break;
-                default:
-                    viewholder=onCreateRestViewHolder2(parent,viewType);
-                    break;
         }
         return viewholder;
-    }
-
-    public  V onCreateRestViewHolder2(@NonNull ViewGroup parent, int viewType){
-        return null;
     }
 
     @Override
