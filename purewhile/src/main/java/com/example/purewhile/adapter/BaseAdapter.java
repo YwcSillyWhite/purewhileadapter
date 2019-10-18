@@ -51,7 +51,6 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return true;
     }
 
-
     //布局
     private SparseIntArray sparseIntArray=new SparseIntArray();
     protected void addLayoutId(@LayoutRes int layoutId){
@@ -101,28 +100,28 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         }
     }
 
-    public V onCreateDataViewHolder(@NonNull ViewGroup parent, int viewType){
+    protected V onCreateDataViewHolder(@NonNull ViewGroup parent, int viewType){
         int layoutId = sparseIntArray.get(viewType, R.layout.adapter_error_layout);
         V v = onCreateV(parent,layoutId);
         return v;
     }
 
-    public V onCreateRestViewHolder(@NonNull ViewGroup parent, int viewType){
+    protected V onCreateRestViewHolder(@NonNull ViewGroup parent, int viewType){
         return null;
     }
 
-    public final V onCreateV(@NonNull ViewGroup parent,int layoutId){
+    protected final V onCreateV(@NonNull ViewGroup parent,int layoutId){
         View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
         return onCreateV(itemView);
     }
 
-    public final V onCreateV(View itemView){
+    protected final V onCreateV(View itemView){
         BaseViewHolder baseViewHolder = new BaseViewHolder(itemView,this);
         return ((V) baseViewHolder);
     }
 
     //点击事件
-    public final void onBindClick(@NonNull final V holder){
+    private void onBindClick(@NonNull final V holder){
         if (holder!=null)
             return;
         View itemView = holder.itemView;
@@ -197,7 +196,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return obtainDataCount();
     }
     //其他长度
-    public int obtainRestCount(){
+    protected int obtainRestCount(){
         return 0;
     }
     //数据长度
@@ -205,7 +204,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
         return mData.size();
     }
     //头部数据长度
-    public int obtainDataHeadCout(){
+    protected int obtainDataHeadCout(){
         return 0;
     }
 
@@ -218,7 +217,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
      * @param recyclerView
      */
     @Override
-    public final void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+    public  void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         final RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager != null && layoutManager instanceof GridLayoutManager){
@@ -240,7 +239,7 @@ public abstract class BaseAdapter<T,V extends BaseViewHolder> extends RecyclerVi
     }
 
     @Override
-    public void onViewRecycled(@NonNull V holder) {
+    public  void onViewRecycled(@NonNull V holder) {
         super.onViewRecycled(holder);
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
         if (layoutParams !=null && layoutParams instanceof StaggeredGridLayoutManager.LayoutParams){
